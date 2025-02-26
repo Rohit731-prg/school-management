@@ -8,9 +8,35 @@ router.get("/", (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-    const { name, gender, Guardian, class: Class, Section } = req.body;
+    const { 
+        name,
+        date_of_birth,
+        roll,
+        email,
+        gender,
+        blood_group,
+        classes,
+        Section,
+        parent,
+        phone,
+        religion,
+        address,
+     } = req.body;
     try {
-        const student = new Student({ name, gender, Guardian, class: Class, Section });
+        const student = new Student({ 
+            name,
+            date_of_birth,
+            roll,
+            email,
+            gender,
+            blood_group,
+            classes,
+            Section,
+            parent,
+            phone,
+            religion,
+            address,
+         });
         await student.save();
         res.status(201).json({ success: true, data: student });
     } catch (error) {

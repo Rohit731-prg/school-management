@@ -50,7 +50,7 @@ function Notice() {
   };
 
   return (
-    <div className="flex bg-red-600 w-full">
+    <div className="flex w-full">
       <Sidebar />
       <div className="w-full h-auto">
         <Header />

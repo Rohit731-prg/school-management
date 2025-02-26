@@ -3,24 +3,41 @@ import mongoose from "mongoose";
 const studentSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+    },
+    date_of_birth: {
+        type: String,
+    },
+    roll: {
+        type: Number,
+    },
+    email: {
+        type: String,
     },
     gender: {
         type: String,
-        required: true,
     },
-    Guardian: {
+    blood_group: {
         type: String,
-        required: true,
     },
-    class: {
-        type: String,
-        required: true,
+    classes: {
+        type: Number,
     },
     Section: {
         type: String,
-        required: true,
     },
+    parent: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
+    religion: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+
 });
 
 const Student = mongoose.model("student", studentSchema);
