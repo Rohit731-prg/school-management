@@ -23,6 +23,11 @@ import StudentDashboard from './Components/Dashboard/StudentDashboard.jsx'
 import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import AddResult from './Components/Result/AddResult.jsx'
 import Registration from './Components/Auth/Registration.jsx'
+import FindStudent from './Components/student/FindStudent.jsx'
+import StudentAdmissionForm from './Components/student/StudentAdmissitionFrom.jsx'
+import StudentPromotion from './Components/student/StudentPromotion.jsx'
+import AddTeacher from './Components/Teacher/AddTeacher.jsx'
+import AllTeachers from './Components/Teacher/AllTeachers.jsx'
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
@@ -45,6 +50,17 @@ createRoot(document.getElementById("root")).render(
         <Route path="/AddClass" element={<AddClass />} />
         <Route path="/Subject" element={<Subject />} />
         <Route path="/Result" element={<AddResult />} />
+
+
+        <Route path="/FindStudent" element={<FindStudent />} />
+        <Route path="/StudentAdmissionForm" element={<StudentAdmissionForm />} />
+        <Route path="/StudentPromotion" element={<StudentPromotion />} />
+
+
+        <Route path="/AddTeacher" element={<AddTeacher />} />
+        <Route path="/AllTeachers" element={<AllTeachers />} />
+
+
         <Route path="/users/register" element={<Registration />} />
         <Route path="/users/login" element={<Login />} />
       </Routes>
