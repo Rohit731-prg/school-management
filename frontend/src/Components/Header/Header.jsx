@@ -11,7 +11,7 @@ function Header() {
   return (
     <div className="bg-white flex justify-between pl-20 pr-10 py-3 shadow-lg">
       <div className="flex flex-row items-center gap-5 text-2xl">
-        <p className="font-semibold">School Manegement System</p>
+        <p className="font-semibold">School Management System</p>
       </div>
       <div className="flex flex-row items-center gap-5">
         <div className="flex flex-row items-center gap-5">

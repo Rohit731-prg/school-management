@@ -50,11 +50,11 @@ function Notice() {
   };
 
   return (
-    <div className="flex h-screen w-full">
+    <div className="flex bg-red-600 w-full">
       <Sidebar />
       <div className="w-full h-auto">
         <Header />
-        <div className="w-full h-full p-10 ">
+        <div className="w-full p-10 ">
           <p className="text-3xl font-semibold">Notice Board</p>
           <div className="w-full h-auto flex flex-row gap-10 mt-10">
             {/* Left Side - Form */}

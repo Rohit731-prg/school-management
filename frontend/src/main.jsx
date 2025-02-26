@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router'
 import { Provider } from 'react-redux'
 import './index.css'
 import App from './App.jsx'
-import Login from './Components/Login/Login.jsx'
+import Login from './Components/Auth/Login.jsx'
 import ExamSchedule from './Components/Exam/ExamSchedule.jsx'
 import { store } from './utils/store.js'
 import Notice from './Components/Notice Board/Notice.jsx'
@@ -22,6 +22,7 @@ import Subject from './Components/Subject/Subject.jsx'
 import StudentDashboard from './Components/Dashboard/StudentDashboard.jsx'
 import TeacherDashboard from './Components/Dashboard/TeacherDashboard.jsx'
 import AddResult from './Components/Result/AddResult.jsx'
+import Registration from './Components/Auth/Registration.jsx'
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
@@ -32,7 +33,6 @@ createRoot(document.getElementById("root")).render(
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/StudentDashboard" element={<StudentDashboard />} />
         <Route path="/TeacherDashboard" element={<TeacherDashboard />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/exam-schedule" element={<ExamSchedule />} />
         <Route path="/notice" element={<Notice />} />
         <Route path='/routine' element={<Routine />} />
@@ -45,6 +45,8 @@ createRoot(document.getElementById("root")).render(
         <Route path="/AddClass" element={<AddClass />} />
         <Route path="/Subject" element={<Subject />} />
         <Route path="/Result" element={<AddResult />} />
+        <Route path="/users/register" element={<Registration />} />
+        <Route path="/users/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   </Provider>

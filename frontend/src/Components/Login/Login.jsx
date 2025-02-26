@@ -1,9 +1,9 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import {useDispatch } from "react-redux";
-
-
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 function Login() {
   const navigation = useNavigate();
@@ -18,17 +18,35 @@ function Login() {
     setCredentials((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (role) => (e) => {
+  const handleSubmit = (role) => async (e) => {
     e.preventDefault();
-    console.log(`Authenticating as ${role}:`, credentials);
-    dispatch({ type: "ASSIGN_ROLE", payload: role });
-    dispatch({ type: "ASSIGN_NAME", payload: credentials.username });
-    role == "Admin" ? navigation("/AdminDashboard") : role == "Teacher" ? navigation("/TeacherDashboard") : navigation("/StudentDashboard");
-    setCredentials({ username: "", password: "" });
+    try {
+      const response = await axios.post("http://localhost:3000/user/login", {
+        email: credentials.username,
+        password: credentials.password,
+      });
+
+      if (response.data) {
+        toast.success("Login Successful");
+        dispatch({ type: "ASSIGN_ROLE", payload: role });
+        dispatch({ type: "ASSIGN_NAME", payload: credentials.username });
+        setTimeout(() => {
+          role === "Admin"
+            ? navigation("/AdminDashboard")
+            : role === "Teacher"
+            ? navigation("/TeacherDashboard")
+            : navigation("/StudentDashboard");
+          setCredentials({ username: "", password: "" });
+        }, 1000);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Login failed");
+    }
   };
 
   return (
     <div className="flex items-center flex-col justify-center h-screen w-screen bg-[#f0f0f0]">
+      <ToastContainer />
       <div className="bg-gray-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 backdrop-saturate-100 backdrop-contrast-100 bg-blend-overlay">
         <div className="border-2 p-10 border-black rounded-lg flex flex-col justify-center items-center">
           <div>
@@ -51,99 +69,39 @@ function Login() {
                 Sign In as Student
               </Tab>
             </TabList>
-            <TabPanel>
-              <form
-                onSubmit={handleSubmit("Admin")}
-                className="flex flex-col px-20 py-10 bg-gray-200 mt-10 rounded-xl gap-2"
-                name="Admin"
-              >
-                <p className="text-2xl">UserName</p>
-                <input
-                  type="text"
-                  name="username"
-                  required
-                  value={credentials.username}
-                  onChange={handleChange}
-                  className="px-4 py-2 rounded-lg transition-opacity duration-500 outline-purple-300 focus:text-3xl"
-                />
-                <p className="text-2xl">Password</p>
-                <input
-                  type="password"
-                  name="password"
-                  required
-                  value={credentials.password}
-                  onChange={handleChange}
-                  className="px-4 py-2 rounded-lg transition-opacity duration-500 outline-purple-300 focus:text-3xl"
-                />
-                <input
-                  type="submit"
-                  value="Sign In"
-                  className="cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white mt-10"
-                />
-              </form>
-            </TabPanel>
-            <TabPanel>
-              <form
-                onSubmit={handleSubmit("Teacher")}
-                className="flex flex-col px-20 py-10 bg-gray-200 mt-10 rounded-xl gap-2"
-                name="Teacher"
-              >
-                <p className="text-2xl">UserName</p>
-                <input
-                  type="text"
-                  name="username"
-                  required
-                  value={credentials.username}
-                  onChange={handleChange}
-                  className="px-4 py-2 rounded-lg transition-opacity duration-500 outline-purple-300 focus:text-3xl"
-                />
-                <p className="text-2xl">Password</p>
-                <input
-                  type="password"
-                  name="password"
-                  required
-                  value={credentials.password}
-                  onChange={handleChange}
-                  className="px-4 py-2 rounded-lg transition-opacity duration-500 outline-purple-300 focus:text-3xl"
-                />
-                <input
-                  type="submit"
-                  value="Sign In"
-                  className="cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white mt-10"
-                />
-              </form>
-            </TabPanel>
-            <TabPanel>
-              <form
-                onSubmit={handleSubmit("Student")}
-                className="flex flex-col px-20 py-10 bg-gray-200 mt-10 rounded-xl gap-2"
-                name="Student"
-              >
-                <p className="text-2xl">UserName</p>
-                <input
-                  type="text"
-                  name="username"
-                  required
-                  value={credentials.username}
-                  onChange={handleChange}
-                  className="px-4 py-2 rounded-lg transition-opacity duration-500 outline-purple-300 focus:text-3xl"
-                />
-                <p className="text-2xl">Password</p>
-                <input
-                  type="password"
-                  name="password"
-                  required
-                  value={credentials.password}
-                  onChange={handleChange}
-                  className="px-4 py-2 rounded-lg transition-opacity duration-500 outline-purple-300 focus:text-3xl"
-                />
-                <input
-                  type="submit"
-                  value="Sign In"
-                  className="cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white mt-10"
-                />
-              </form>
-            </TabPanel>
+            {["Admin", "Teacher", "Student"].map((role) => (
+              <TabPanel key={role}>
+                <form
+                  onSubmit={handleSubmit(role)}
+                  className="flex flex-col px-20 py-10 bg-gray-200 mt-10 rounded-xl gap-2"
+                  name={role}
+                >
+                  <p className="text-2xl">UserName</p>
+                  <input
+                    type="text"
+                    name="username"
+                    required
+                    value={credentials.username}
+                    onChange={handleChange}
+                    className="px-4 py-2 rounded-lg transition-opacity duration-500 outline-purple-300 focus:text-3xl"
+                  />
+                  <p className="text-2xl">Password</p>
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    value={credentials.password}
+                    onChange={handleChange}
+                    className="px-4 py-2 rounded-lg transition-opacity duration-500 outline-purple-300 focus:text-3xl"
+                  />
+                  <input
+                    type="submit"
+                    value="Sign In"
+                    className="cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white mt-10"
+                  />
+                </form>
+              </TabPanel>
+            ))}
           </Tabs>
         </div>
       </div>
@@ -152,3 +110,4 @@ function Login() {
 }
 
 export default Login;
+

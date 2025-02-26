@@ -7,10 +7,13 @@ const productSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true,
+    },
+    image: {
+        type: String,
+        required: true
     },
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model("product", productSchema);
 
 export default Product;
