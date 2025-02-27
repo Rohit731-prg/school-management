@@ -117,10 +117,10 @@ function FindStudent() {
                           {student.gender}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {student.class}
+                          {student.classes}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {student.section}
+                          {student.Section}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {student.parent}
