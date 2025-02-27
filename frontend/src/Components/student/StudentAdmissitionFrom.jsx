@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import { data, Link } from "react-router";
+import { Link } from "react-router";
 import axios from "axios";
 
 function StudentAdmissionForm() {
@@ -12,9 +12,8 @@ function StudentAdmissionForm() {
       roll: "",
       email: "",
       gender: "",
-      date_of_birth: "",
-      classes: "",
-      Section: "",
+      class: "",
+      section: "",
       parent: "",
       phone: "",
       religion: "",
@@ -25,6 +24,22 @@ function StudentAdmissionForm() {
   const classes_list = [5, 6, 7, 8, 9, 10, 11, 12];
   const sections = ["A", "B", "C"];
   const religions = ["Hindu", "Islam", "Christian"];
+
+  const handleResetwithoutRefresh = () => {
+    setFormData({
+      name: "",
+      date_of_birth: "",
+      roll: "",
+      email: "",
+      gender: "",
+      class: "",
+      section: "",
+      parent: "",
+      phone: "",
+      religion: "",
+      address: "",
+    });
+  };
 
   const saveDetails = async (e) => {
     e.preventDefault();
@@ -39,16 +54,14 @@ function StudentAdmissionForm() {
     } catch (err) {
       console.log(err);
     }
-
     setFormData({
       name: "",
       date_of_birth: "",
       roll: "",
       email: "",
       gender: "",
-      date_of_birth: "",
-      classes: "",
-      Section: "",
+      class: "",
+      section: "",
       parent: "",
       phone: "",
       religion: "",
@@ -103,7 +116,7 @@ function StudentAdmissionForm() {
                         onChange={(e) =>
                           setFormData({ ...formData, [name]: e.target.value })
                         }
-                        // required={name !== "roll"}
+                        required={name !== "roll"}
                         className="mt-1 block w-full py-3 border-b-2 outline-none border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       />
                     </div>
@@ -168,7 +181,7 @@ function StudentAdmissionForm() {
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          classes: e.target.value,
+                          class: e.target.value,
                         })
                       }
                       required
@@ -192,7 +205,7 @@ function StudentAdmissionForm() {
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          Section: e.target.value,
+                          section: e.target.value,
                         })
                       }
                       required
@@ -215,7 +228,7 @@ function StudentAdmissionForm() {
                       // name={}
                       value={formData.parant}
                       onChange={(e) =>
-                        setFormData({ ...formData, parant: e.target.value })
+                        setFormData({ ...formData, parent: e.target.value })
                       }
                       required
                       className="mt-1 block w-full py-3 border-b-2 outline-none border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
@@ -252,9 +265,9 @@ function StudentAdmissionForm() {
                       className="mt-1 block w-full py-3 border-b-2 outline-none border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     >
                       <option value="">Please Select Religion</option>
-                      {religions.map((religian, index) => (
-                        <option key={index} value={religian}>
-                          {religian}
+                      {religions.map((religion, index) => (
+                        <option key={index} value={religion}>
+                          {religion}
                         </option>
                       ))}
                     </select>
@@ -315,8 +328,8 @@ function StudentAdmissionForm() {
                     Save
                   </button>
                   <button
-                    type="button"
-                    // onClick={handleReset}
+                    type="reset"
+                    onClick={handleResetwithoutRefresh}
                     className="py-3 px-10 bg-blue-900 text-xl text-white rounded-md shadow-sm hover:bg-blue-800"
                   >
                     Reset

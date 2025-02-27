@@ -61,6 +61,7 @@ const Sidebar = () => {
                     <option value="/AddTeacher">Add Teacher</option>
                     <option value="/AllTeachers">All Teachers</option>
                 </select>
+                <i><IoLibraryOutline size={24} /></i>
                 <select
                     onChange={(e) => Library(e.target.value)}
                     className="bg-transparent w-full p-3 my-1 flex items-center gap-3 hover:bg-gray-700 transition duration-300 ease-in-out text-white text-base border border-gray-600 rounded-md">

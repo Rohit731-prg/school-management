@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 import { Link } from "react-router";
@@ -117,10 +117,10 @@ function FindStudent() {
                           {student.gender}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {student.classes}
+                          {student.class}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {student.Section}
+                          {student.section}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {student.parent}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../Header/Header";
 import { Link } from "react-router";
@@ -6,40 +6,35 @@ import axios from "axios";
 
 function AddTeacher() {
   const bloodGroupList = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
-  const religions = ["Hindu", "Islam", "Christian"];
-  const [teacherDetails, setTeacherDetails] = useState({
-    name: "",
-    date_of_birth: "",
-    id: "",
-    email: "",
-    phone: "",
-    gender: "",
-    bloodGroup: "",
-    religion: "",
-    address: "",
-  });
+  const religions = [
+    "Hindu", "Islam", "Christian", "Buddhist", "Jain", "Sikh", "Parsi", "Jewish", "Bahai", "Other",
+  ];
+  const [teacherDetails, setTeacherDetails] = useState([
+    {
+      name: "",
+      date_of_birth: "",
+      id: "",
+      email: "",
+      phone: "",
+      gender: "",
+      bloodGroup: "",
+      religion: "",
+      address: "",
+    }]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await axios.post(
-        "http://localhost:3000/teachers/add",
+      const { data } = await axios.post(
+        "http://localhost:3000/teacher/add",
         teacherDetails
       );
-      setTeacherDetails({
-        name: "",
-        date_of_birth: "",
-        id: "",
-        email: "",
-        phone: "",
-        gender: "",
-        bloodGroup: "",
-        religion: "",
-        address: "",
-      });
+      console.log(data);
+      alert("Teacher added successfully");
+      handleReset(); // Reuse existing reset function
     } catch (err) {
-      console.log(err);
+      console.error('Error adding teacher:', err.message);
+      alert('Failed to add teacher');
     }
   };
 
@@ -180,9 +175,9 @@ function AddTeacher() {
                       }
                     >
                       <option value="">Select Religion</option>
-                      {religions.map((religian, index) => (
-                        <option key={index} value={religian}>
-                          {religian}
+                      {religions.map((religion, index) => (
+                        <option key={index} value={religion}>
+                          {religion}
                         </option>
                       ))}
                     </select>

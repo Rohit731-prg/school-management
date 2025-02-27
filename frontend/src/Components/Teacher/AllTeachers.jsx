@@ -1,32 +1,44 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../Header/Header";
 import { Link } from "react-router";
 import axios from "axios";
 
 function AllTeachers() {
-    const [teacherList, setTeacherList] = useState(null)
+  const [teacherList, setTeacherList] = useState([]);
+  const [filteredTeacherList, setFilteredTeacherList] = useState([]);
+  const [searchID, setSearchID] = useState("");
+  const [searchName, setSearchName] = useState("");
+  const [searchPhone, setSearchPhone] = useState("");
 
-    const [searchID, setSearchID] = useState("");
-    const [searchName, setSearchName] = useState("");
-    const [searchPhone, setSearchPhone] = useState("");
+  const handleSearch = () => {
+    const filteredList = teacherList.filter(teacher => {
+      const lowerCaseID = teacher.id.toLowerCase();
+      const lowerCaseName = teacher.name.toLowerCase();
+      const lowerCasePhone = teacher.phone.toLowerCase();
 
-    const handleSearch = () => {
-        
+      const lowerCaseSearchID = searchID.toLowerCase();
+      const lowerCaseSearchName = searchName.toLowerCase();
+      const lowerCaseSearchPhone = searchPhone.toLowerCase();
+
+      return (lowerCaseID.includes(lowerCaseSearchID) && lowerCaseName.includes(lowerCaseSearchName) && lowerCasePhone.includes(lowerCaseSearchPhone))
+    });
+    setFilteredTeacherList(filteredList);
+  };
+
+  const getData = async () => {
+    try {
+      const res = await axios.get('http://localhost:3000/teachers/all');
+      setTeacherList(res.data.data);
+      setFilteredTeacherList(res.data.data);
+    } catch (err) {
+      console.log(err);
     }
+  }
 
-    const getData = async () => {
-      try{
-        const res = await axios.get('http://localhost:3000/teachers/all')
-        setTeacherList(res.data.data);
-      } catch(err) {
-        console.log(err);
-      }
-    }
-
-    useEffect(() => {
-      getData();
-    }, [])
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="flex">
@@ -51,7 +63,7 @@ function AllTeachers() {
                 type="text"
                 placeholder="Search by ID ..."
                 value={searchID}
-                onchange={(e) => setSearchID(e.target.value)}
+                onChange={(e) => setSearchID(e.target.value)}
                 className="border rounded-md px-3 py-2"
               />
               <input
@@ -76,41 +88,42 @@ function AllTeachers() {
               </button>
             </div>
 
-            <table className="min-w-full divide-y divide-gray-200 mt-2">
-              <tr className="bg-gray-50">
-                <th className="p-3">ID</th>
-                <th className="p-3">Name</th>
-                <th className="p-3">Gender</th>
-                <th className="p-3">Date of Birth</th>
-                <th className="p-3">Blood Group</th>
-                <th className="p-3">Religion</th>
-                <th className="p-3">Address</th>
-                <th className="p-3">Phone</th>
-                <th className="p-3">E-mail</th>
-              </tr>
 
-              {teacherList.map((teacher, index) => (
-                <tr
-                  className="bg-white divide-y divide-gray-200 text-center"
-                  key={index}
-                >
-                  <td className="p-3">{teacher.id}</td>
-                  <td className="p-3">{teacher.name}</td>
-                  <td className="p-3">{teacher.gender}</td>
-                  <td className="p-3">{teacher.date_of_birth}</td>
-                  <td className="p-3">{teacher.bloodGroup}</td>
-                  <td className="p-3">{teacher.religion}</td>
-                  <td className="p-3">{teacher.address}</td>
-                  <td className="p-3">{teacher.phone}</td>
-                  <td className="p-3">{teacher.email}</td>
+            <table className="min-w-full divide-y divide-gray-200 mt-2 border">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gender</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date of Birth</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blood Group</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Religion</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                 </tr>
-              ))}
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredTeacherList.map((teacher) => (
+                  <tr key={teacher.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.name}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.gender}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.date_of_birth}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.bloodGroup}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.religion}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.address}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.phone}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{teacher.email}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default AllTeachers;
