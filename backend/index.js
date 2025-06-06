@@ -7,6 +7,7 @@ import TeacherRoutes from './src/routes/teacher.route.js';
 import LibraryRouters from './src/routes/library.route.js';
 import ClassRouter from './src/routes/class.route.js';
 import MessageRouter from './src/routes/message.route.js';
+import NoticeRouter from './src/routes/notice.route.js';
 import cookieParser from 'cookie-parser';
 import { verifyToken } from './middleware/verifyJWTForStudent.js';
 
@@ -22,6 +23,7 @@ app.use('/api/students', StudentRoutes);
 app.use('/api/teachers', TeacherRoutes);
 app.use('/api/library', LibraryRouters);
 app.use('/api/classes', ClassRouter);
+app.use('/api/notices', NoticeRouter);
 app.use('/api/messages', MessageRouter);
 
 connectDB().then(() => {
