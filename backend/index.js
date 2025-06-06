@@ -8,8 +8,11 @@ import LibraryRouters from './src/routes/library.route.js';
 import ClassRouter from './src/routes/class.route.js';
 import MessageRouter from './src/routes/message.route.js';
 import NoticeRouter from './src/routes/notice.route.js';
+import AccountRouter from './src/routes/account.router.js';
+import HostelRouter from './src/routes/hostel.route.js';
 import cookieParser from 'cookie-parser';
 import { verifyToken } from './middleware/verifyJWTForStudent.js';
+import { LoginWithAuth } from './config/LoginWithAuth.js';
 
 const app = express();
 app.use(cors());
@@ -18,13 +21,15 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 4000;
 
-app.use('/api/auth', verifyToken);
+app.use('/api/auth', verifyToken, LoginWithAuth);
 app.use('/api/students', StudentRoutes);
 app.use('/api/teachers', TeacherRoutes);
 app.use('/api/library', LibraryRouters);
 app.use('/api/classes', ClassRouter);
 app.use('/api/notices', NoticeRouter);
 app.use('/api/messages', MessageRouter);
+app.use('/api/accounts', AccountRouter);
+app.use('/api/hostels', HostelRouter);
 
 connectDB().then(() => {
     app.listen(PORT, () => {
