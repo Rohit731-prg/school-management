@@ -20,7 +20,7 @@ export const createResult = async (req, res) => {
 
 export const getAllResult = async (req, res) => {
     try {
-        const results = await Result.find();
+        const results = await Result.find().populate("exam").populate("student");
         res.status(200).json({ success: true, results: results });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -34,7 +34,7 @@ export const getResultByStudent = async (req, res) => {
         const student = await Student.findById({ id });
         if ( !student ) return res.status(404).json({ success: false, message: "Student not found" });
 
-        const results = await Result.find({ student: id });
+        const results = await Result.find({ student: id }).populate("exam").populate("student");
         if ( !results ) return res.status(404).json({ success: false, message: "No Results Available for this student" });
 
         res.status(200).json({ success: true, results: results });
